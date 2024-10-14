@@ -96,8 +96,6 @@ fn main() -> Result<(), Error> {
 
     let tokenizer_path: &str = "./tokenisers/tokenizer.json";
 
-    // let model_path: &str = "C:/Users/JamesJoslin/dev/rust-dev/james_ai/network/hub/models--Qwen--Qwen2-0.5B-Instruct/snapshots/c540970f9e29518b1d8f06ab8b24cba66ad77b6d/qwen2-0-5.onnx";
-
     let model_path: &str = "./qwen2-0-5.onnx"; 
 
     // let environment: Arc<Environment> = Arc::new(Environment::builder()

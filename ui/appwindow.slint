@@ -99,12 +99,12 @@ export component AppWindow inherits Window {
                         mouse-cursor: root.send_button_enabled ? MouseCursor.pointer : MouseCursor.default;
                     }
                     background: touch.pressed ? button_fill.darker(0.25) : touch.has-hover ? button_fill.brighter(0.25) : button_fill;
-                    Image {
-                        height: parent.height * 0.6;
-                        width: parent.width * 0.6;
-                        source: @image-url("C:/Users/JamesJoslin/dev/rust-dev/fontawesome-free-6.6.0-desktop/fontawesome-free-6.6.0-desktop/svgs/solid/paper-plane.svg");
-                        colorize: touch.pressed ? icon_fill.brighter(0.25) : touch.has-hover ? icon_fill.darker(0.25) :  icon_fill;
-                    }
+                    // Image {
+                    //     height: parent.height * 0.6;
+                    //     width: parent.width * 0.6;
+                    //     source: @image-url("./icons/paper-plane-solid.svg");
+                    //     colorize: touch.pressed ? icon_fill.brighter(0.25) : touch.has-hover ? icon_fill.darker(0.25) :  icon_fill;
+                    // }
                     border-radius: 2px;
                 }
             }
