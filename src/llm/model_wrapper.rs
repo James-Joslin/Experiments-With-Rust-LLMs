@@ -1,3 +1,15 @@
+// use openvino;
+
+// fn main() {
+//     assert!(openvino::version().build_number.starts_with("2"));
+//     println!("OPENVINO_HOME: {:?}", std::env::var("OPENVINO_HOME"));
+//     println!("OPENVINO_BUILD_DIR: {:?}", std::env::var("OPENVINO_BUILD_DIR"));
+//     let test: openvino::Core = openvino::Core::new().expect("to instantiate the OpenVINO library");
+//     let devices: Result<Vec<openvino::DeviceType<'_>>, openvino::InferenceError> = test.available_devices();
+//     println!("Available devices: {:#?}", devices);
+// }
+
+
 use std::sync::Arc;//{, Mutex, MutexGuard};
 use anyhow::{Context, Error, Ok, Result};
 use onnxruntime::{
