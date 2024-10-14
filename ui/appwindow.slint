@@ -1,31 +1,121 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { VerticalBox, HorizontalBox, TextEdit, Button, AboutSlint, GridBox, ScrollView, ListView } from "std-widgets.slint";
+
+struct SlintMessage {
+    is_user: bool,
+    text: string,
+}
 
 export component AppWindow inherits Window {
-    in-out property <int> counter: 42;
-    callback request-increase-value();
-    VerticalBox {
-        Text {
-            text: "Counter: \{root.counter}";
-        }
+    in-out property <string> input_text: "";
+    in-out property <[SlintMessage]> messages: [];
+    in-out property <bool> send_button_enabled: true; // Property to track if the button is enabled
 
-        Button {
-            text: "Increase value";
-            clicked => {
-                root.request-increase-value();
+
+    // callback update_frontend_chat(string) -> bool;
+    callback send_chat_to_backend(string) -> bool;
+    public function update_frontend_chat(new_messages : [SlintMessage]) {
+        messages = new-messages;
+    }
+    public function update_send_button_enabled(isEnabled : bool) {
+        send_button_enabled = isEnabled
+    }
+
+    in property <brush> icon_fill: #575757;
+    in property <brush> border_col: #6e6e6e;
+    in property <brush> button_fill: #587575;
+    in property <brush> user_message_fill: #31313146;
+    in property <brush> ai_message_fill: #b5b5b521;
+    in property <length> border_width: 1px;
+    in property <length> border_radius: 5px;
+
+    
+    width: 900px;
+    height: 600px;
+    background: #202020;
+
+    VerticalLayout {
+        height: parent.height;
+        width: parent.width;
+    
+        Rectangle { // responses section
+            border-color: border_col;
+            border-width: border_width;
+            border-radius: border_radius;
+            height: parent.height * 0.9;
+            width: parent.width * 0.85;
+            x: (parent.width - self.width) / 2;
+            vertical-stretch: 1;
+            horizontal-stretch: 1;
+
+            ListView {
+                for message in messages: Rectangle {
+                    width: parent.width;
+                    background: message.is_user ? button_fill : ai_message_fill;
+                    padding: 5px; // Add padding inside each item to create space
+                    Text {
+                        text: message.text;
+                        font-size: 14px;
+                        horizontal-alignment: message.is_user ? right : left;
+                        wrap: word-wrap; // Enable text wrapping
+                        width: parent.width - 40px; // Ensure the text fits within the parent container with some padding
+                        font-family: "lato";
+                    }
+                }   
+            }
+        }
+        Rectangle { // input section
+            // sizing
+            width: parent.width * 0.75;
+            height: parent.height * 0.1;
+            x: root.width / 8;
+            border-color: border_col;
+            border-width: border_width;
+            border-radius: border_radius;
+    
+            HorizontalLayout {
+                height: parent.height;
+                width: parent.width;
+                // height: parent.height;
+                padding:2px;
+    
+                TextEdit {
+                    max-width: parent.width - parent.height;
+                    font-size: 14px;
+                    placeholder-text: "Message Dellian";
+                    text <=> root.input_text ;
+                }
+                Rectangle {
+                    height: root.height * 0.095;
+                    width: root.height * 0.095;
+                    callback clicked <=> touch.clicked;
+                    touch := TouchArea {
+                        clicked => {
+                            if (root.send_button_enabled) {
+                                update_send_button_enabled(false); // Disable the button
+                                send_chat_to_backend(root.input_text);
+                                root.input_text = "";
+                            }
+                        }
+                        mouse-cursor: root.send_button_enabled ? MouseCursor.pointer : MouseCursor.default;
+                    }
+                    background: touch.pressed ? button_fill.darker(0.25) : touch.has-hover ? button_fill.brighter(0.25) : button_fill;
+                    Image {
+                        height: parent.height * 0.6;
+                        width: parent.width * 0.6;
+                        source: @image-url("C:/Users/JamesJoslin/dev/rust-dev/fontawesome-free-6.6.0-desktop/fontawesome-free-6.6.0-desktop/svgs/solid/paper-plane.svg");
+                        colorize: touch.pressed ? icon_fill.brighter(0.25) : touch.has-hover ? icon_fill.darker(0.25) :  icon_fill;
+                    }
+                    border-radius: 2px;
+                }
             }
         }
     }
+    Rectangle {
+        width: parent.width;
+        height: parent.height;
+        border-color: border_col;
+        border-width: border_width;
+        border-radius: border_radius;
+        background: transparent;
+    }
 }
-
-
-    // let ui = AppWindow::new()?;
-
-    // ui.on_request_increase_value({
-    //     let ui_handle = ui.as_weak();
-    //     move || {
-    //         let ui = ui_handle.unwrap();
-    //         ui.set_counter(ui.get_counter() + 1);
-    //     }
-    // });
-
-    // ui.run()
