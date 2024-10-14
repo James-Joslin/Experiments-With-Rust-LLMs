@@ -13,6 +13,9 @@ The current version of the project is a **work-in-progress** and serves as an ex
 
 The model currently in use is sourced from the [**Qwen-0.5B-Instruct**](https://huggingface.co/Qwen/Qwen2-0.5B-Instruct) on Hugging Face. At present, the model, ONNX runtime, and GUI are all part of the same codebase, which is **not the final solution**. Eventually, I plan to separate the ONNX-based model into an API, and have the Slint-based GUI act as a client for better architecture.
 
+## Example
+![alt text](example.png "Title")
+
 ## Goals and Improvements
 
 - Transition the model execution to an API service.
